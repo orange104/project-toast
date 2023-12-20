@@ -7,6 +7,11 @@ import styles from './ToastPlayground.module.css';
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+  const [message, setMessage] = React.useState('');
+
+  const handleMsgChange = (event) => {
+    setMessage(event.target.value)
+  }
   return (
     <div className={styles.wrapper}>
       <header>
@@ -24,7 +29,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea id="message" value={message} onChange={handleMsgChange} className={styles.messageInput} />
           </div>
         </div>
 
