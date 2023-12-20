@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../Button';
-
+import Toast from '../Toast';
 import styles from './ToastPlayground.module.css';
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
@@ -22,7 +22,7 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-
+      <Toast content={message} variant={variant} />
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
@@ -51,14 +51,14 @@ function ToastPlayground() {
               />
               notice */}
               {VARIANT_OPTIONS.map((variant) =>
-                <>
+                <label key={variant}>
                   <input
                     id={`variant-${variant}`}
                     type="radio"
                     name="variant"
                     value={variant} />
-                  {variant}{' '}
-                </>
+                  {variant}
+                </label>
               )}
             </label>
           </div>
