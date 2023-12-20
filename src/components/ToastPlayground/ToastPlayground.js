@@ -9,6 +9,7 @@ const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState('notice');
+  const [isShowToast, setIsShowToast] = React.useState(true);
 
   const handleMsgChange = (event) => {
     setMessage(event.target.value);
@@ -16,13 +17,17 @@ function ToastPlayground() {
   const handleVariantChange = (event) => {
     setVariant(event.target.value);
   }
+
+  const handleDismiss = () => {
+    setIsShowToast(false);
+  }
   return (
     <div className={styles.wrapper}>
       <header>
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      <Toast content={message} variant={variant} />
+      {isShowToast && <Toast content={message} variant={variant} handleDismiss={handleDismiss} />}
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
@@ -41,17 +46,10 @@ function ToastPlayground() {
           <div className={styles.label}>Variant</div>
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
+            onChange={handleVariantChange}
           >
-            <label htmlFor="variant-notice" onChange={handleVariantChange}>
-              {/* <input
-                id="variant-notice"
-                type="radio"
-                name="variant"
-                value="notice"
-              />
-              notice */}
               {VARIANT_OPTIONS.map((variant) =>
-                <label key={variant}>
+                <label key={variant} htmlFor={`variant-${variant}`}>
                   <input
                     id={`variant-${variant}`}
                     type="radio"
@@ -60,7 +58,6 @@ function ToastPlayground() {
                   {variant}
                 </label>
               )}
-            </label>
           </div>
         </div>
 
