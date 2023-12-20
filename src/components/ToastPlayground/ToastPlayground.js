@@ -23,6 +23,8 @@ function ToastPlayground() {
   const handlePopToast = (event) => {
     event.preventDefault();
     context.createToast(message, variant);
+    setMessage('');
+    setVariant(VARIANT_OPTIONS[0]);
   }
   return (
     <div className={styles.wrapper} >
@@ -41,7 +43,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" value={context.message} onChange={handleMsgChange} className={styles.messageInput} />
+            <textarea id="message" value={message} onChange={handleMsgChange} className={styles.messageInput} />
           </div>
         </div>
 
