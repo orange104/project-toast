@@ -16,9 +16,12 @@ function ToastProvider({ children }) {
             variant,
         }]);
     }
+    const dismissAll = () => {
+        setToastList([]);
+    }
 
     return (
-        <ToastContext.Provider value={{ ToastList, createToast, handleDismiss }}>
+        <ToastContext.Provider value={{ ToastList, dismissAll, createToast, handleDismiss }}>
             {children}
         </ToastContext.Provider>
     )

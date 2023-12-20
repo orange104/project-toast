@@ -12,6 +12,8 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
 
+  const textareaRef = React.useRef();
+
   const context = React.useContext(ToastContext);
 
   const handleMsgChange = (event) => {
@@ -25,7 +27,20 @@ function ToastPlayground() {
     context.createToast(message, variant);
     setMessage('');
     setVariant(VARIANT_OPTIONS[0]);
+    textareaRef.current.focus();
   }
+  React.useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        context.dismissAll();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [])
+
   return (
     <div className={styles.wrapper} >
       <header>
@@ -43,7 +58,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" value={message} onChange={handleMsgChange} className={styles.messageInput} />
+            <textarea ref={textareaRef} id="message" value={message} onChange={handleMsgChange} className={styles.messageInput} />
           </div>
         </div>
 

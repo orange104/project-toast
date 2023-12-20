@@ -9,7 +9,7 @@ function ToastShelf() {
   const context = React.useContext(ToastContext);
   return (
     <ol className={styles.wrapper}>
-      {context.ToastList.map(({ id, message, variant }) => (
+      {context.ToastList?.map(({ id, message, variant }) => (
         <li key={id} className={styles.toastWrapper}>
           <Toast
             content={message}
