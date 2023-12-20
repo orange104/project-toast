@@ -3,23 +3,13 @@ import React from 'react'
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
-    const [message, setMessage] = React.useState('');
-    const [variant, setVariant] = React.useState('notice');
     const [ToastList, setToastList] = React.useState([]);
-
-    const handleMsgChange = (event) => {
-        setMessage(event.target.value);
-    }
-    const handleVariantChange = (event) => {
-        setVariant(event.target.value);
-    }
 
     const handleDismiss = (id) => {
         setToastList(ToastList.filter((toast) => toast.id !== id));
     }
 
-    const handlePopToast = (event) => {
-        event.preventDefault();
+    const createToast = (message, variant) => {
         setToastList([...ToastList, {
             id: crypto.randomUUID(),
             message,
@@ -28,7 +18,7 @@ function ToastProvider({ children }) {
     }
 
     return (
-        <ToastContext.Provider value={{ message, variant, ToastList, handleMsgChange, handleVariantChange, handleDismiss, handlePopToast }}>
+        <ToastContext.Provider value={{ ToastList, createToast, handleDismiss }}>
             {children}
         </ToastContext.Provider>
     )

@@ -9,15 +9,29 @@ import { ToastContext } from '../../store/ToastProvider';
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+  const [message, setMessage] = React.useState('');
+  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
+
   const context = React.useContext(ToastContext);
+
+  const handleMsgChange = (event) => {
+    setMessage(event.target.value);
+  }
+  const handleVariantChange = (event) => {
+    setVariant(event.target.value);
+  }
+  const handlePopToast = (event) => {
+    event.preventDefault();
+    context.createToast(message, variant);
+  }
   return (
-    <form className={styles.wrapper} >
+    <div className={styles.wrapper} >
       <header>
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      <ToastShelf ToastList={context?.ToastList} handleDismiss={context.handleDismiss} />
-      <div className={styles.controlsWrapper}>
+      <ToastShelf />
+      <form className={styles.controlsWrapper} onSubmit={handlePopToast}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -27,7 +41,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" value={context.message} onChange={context.handleMsgChange} className={styles.messageInput} />
+            <textarea id="message" value={context.message} onChange={handleMsgChange} className={styles.messageInput} />
           </div>
         </div>
 
@@ -35,16 +49,18 @@ function ToastPlayground() {
           <div className={styles.label}>Variant</div>
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
-            onChange={context.handleVariantChange}
           >
-            {VARIANT_OPTIONS.map((variant) =>
-              <label key={variant} htmlFor={`variant-${variant}`}>
+            {VARIANT_OPTIONS.map((value) =>
+              <label key={value} htmlFor={`value-${value}`}>
                 <input
-                  id={`variant-${variant}`}
+                  id={`value-${value}`}
                   type="radio"
                   name="variant"
-                  value={variant} />
-                {variant}
+                  checked={variant === value}
+                  value={value}
+                  onChange={handleVariantChange}
+                />
+                {value}
               </label>
             )}
           </div>
@@ -55,11 +71,11 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <Button onClick={context.handlePopToast}>Pop Toast!</Button>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
 
