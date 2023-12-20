@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '../Button';
 import ToastShelf from '../ToastShelf/ToastShelf';
 import styles from './ToastPlayground.module.css';
+import useKeydown from '../../hooks/useKeydown';
 
 import { ToastContext } from '../../store/ToastProvider';
 
@@ -29,17 +30,7 @@ function ToastPlayground() {
     setVariant(VARIANT_OPTIONS[0]);
     textareaRef.current.focus();
   }
-  React.useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        context.dismissAll();
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [])
+  useKeydown('Escape', context.dismissAll);
 
   return (
     <div className={styles.wrapper} >
